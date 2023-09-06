@@ -3,16 +3,17 @@ use std::path::PathBuf;
 
 // FIXME(sproul): fix path
 fn main() {
-    println!("cargo:rustc-link-lib=evercrypt");
+    println!("cargo:rustc-link-lib=static=evercrypt");
+    println!("cargo:rustc-link-search=/home/michael/Programming/hacl-star/dist/gcc-compatible");
 
     // Tell cargo to invalidate the built crate whenever the wrapper changes
     println!("cargo:rerun-if-changed=wrapper.h");
 
     let bindings = bindgen::Builder::default()
         .header("wrapper.h")
-        .clang_arg("-I/Users/michael/Programming/hacl-star/dist/portable-gcc-compatible")
-        .clang_arg("-I/Users/michael/Programming/hacl-star/dist/karamel/include")
-        .clang_arg("-I/Users/michael/Programming/hacl-star/dist/karamel/krmllib/dist/minimal")
+        .clang_arg("-I/home/michael/Programming/hacl-star/dist/gcc-compatible")
+        .clang_arg("-I/home/michael/Programming/hacl-star/dist/karamel/include")
+        .clang_arg("-I/home/michael/Programming/hacl-star/dist/karamel/krmllib/dist/minimal")
         .parse_callbacks(Box::new(bindgen::CargoCallbacks))
         .generate()
         .expect("Unable to generate bindings");
